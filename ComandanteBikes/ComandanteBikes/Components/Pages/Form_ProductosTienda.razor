@@ -1,0 +1,90 @@
+﻿@page "/productosTienda/nueva"
+@page "/productosTienda/editar/{Id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioProductosTienda _repositorio;
+
+<h1>@_mensaje Producto</h1>
+<EditForm Model="_productosTienda" FormName="frmProductosTienda" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-3">
+        <label for="txtModelo" class="col-2 col-form-label">Modelo</label>
+        <div>
+            <InputText id="txtModelo" class="form-control" @bind-Value="_productosTienda.Modelo" />
+            <ValidationMessage For="()=>_productosTienda.Marca" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtModelo" class="col-2 col-form-label">Marca</label>
+        <div>
+            <InputText id="txtModelo" class="form-control" @bind-Value="_productosTienda.Marca" />
+            <ValidationMessage For="()=>_productosTienda.Marca" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtPrecio" class="col-2 col-form-label">Precio</label>
+        <div>
+            <InputText id="txtPrecio" class="form-control" @bind-Value="_productosTienda.Precio" />
+            <ValidationMessage For="()=>_productosTienda.Precio" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtTall" class="col-2 col-form-label">Talla</label>
+        <div>
+            <InputText id="txtTalla" class="form-control" @bind-Value="_productosTienda.Talla" />
+            <ValidationMessage For="()=>_productosTienda.Talla" />
+        </div>
+
+        <div class="row mb-3">
+            <label for="txtColor" class="col-2 col-form-label">Color</label>
+            <div>
+                <InputText id="txtColor" class="form-control" @bind-Value="_productosTienda.Color" />
+                <ValidationMessage For="()=>_productosTienda.Color" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button class="btn btn-danger ms-3" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private string _mensaje = "";
+    private ProductosTienda? _productosTienda = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            _productosTienda = await _repositorio.Get(Id);
+            _mensaje = "Modificar";
+        }
+        else
+        {
+            _mensaje = "Nuevo";
+        }
+    }
+
+    private async void Guardar()
+    {
+        if (Id > 0)
+        {
+            await _repositorio.Update(Id, _productosTienda!);
+        }
+        else
+        {
+            await _repositorio.Add(_productosTienda!);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("/productosTienda");
+    }
+}

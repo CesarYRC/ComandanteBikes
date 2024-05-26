@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComandanteBikes", "ComandanteBikes\ComandanteBikes\ComandanteBikes.csproj", "{0C075D9B-628B-42BF-82DB-E9C377E0F19A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComandanteBikes.Client", "ComandanteBikes\ComandanteBikes.Client\ComandanteBikes.Client.csproj", "{63C59AE4-62D5-4A36-9B22-8D56A7C776D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C075D9B-628B-42BF-82DB-E9C377E0F19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C075D9B-628B-42BF-82DB-E9C377E0F19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C075D9B-628B-42BF-82DB-E9C377E0F19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C075D9B-628B-42BF-82DB-E9C377E0F19A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63C59AE4-62D5-4A36-9B22-8D56A7C776D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63C59AE4-62D5-4A36-9B22-8D56A7C776D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63C59AE4-62D5-4A36-9B22-8D56A7C776D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63C59AE4-62D5-4A36-9B22-8D56A7C776D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04C7A0EE-8FD1-4BD1-AE28-951FAC43C082}
+	EndGlobalSection
+EndGlobal
