@@ -12,5 +12,6 @@ namespace ComandanteBikes.Modelo
         }
         public DbSet<ProductosTienda> ProductosTienda { get; set;}
         public DbSet<InventarioTienda> InventarioTienda { get; set;}
+        public DbSet<VentaTienda> VentaTienda { get; set;}
     }
 }

@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CatalogoDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IRepositorioProductosTienda, RepositorioProductosTienda>();
 builder.Services.AddScoped<IRepositorioInventarioTienda, RepositorioInventarioTienda>();
+builder.Services.AddScoped<IRepositorioVentaTienda, RepositorioVentaTienda>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
