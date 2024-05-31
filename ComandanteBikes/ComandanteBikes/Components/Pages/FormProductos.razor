@@ -1,0 +1,107 @@
+﻿@page "/productos/nuevo"
+@page "/productos/editar/{Id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioProductos _repositorioProductos;
+@inject IRepositorioProveedores _repositorioProveedores;
+
+<h1>@_mensaje Producto</h1>
+<EditForm Model="_producto" FormName="frmProducto" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-3">
+        <label for="txtModelo" class="col-2 col-form-label">Modelo</label>
+        <div>
+            <InputText id="txtModelo" class="form-control" @bind-Value="_producto.Modelo" />
+            <ValidationMessage For="()=>_producto.Modelo" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtModelo" class="col-2 col-form-label">Marca</label>
+        <div>
+            <InputText id="txtModelo" class="form-control" @bind-Value="_producto.Marca" />
+            <ValidationMessage For="()=>_producto.Marca" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtPrecio" class="col-2 col-form-label">Precio</label>
+        <div>
+            <InputNumber id="txtPrecio" class="form-control" @bind-Value="_producto.Precio" />
+            <ValidationMessage For="()=>_producto.Precio" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtTall" class="col-2 col-form-label">Talla</label>
+        <div>
+            <InputText id="txtTalla" class="form-control" @bind-Value="_producto.Talla" />
+            <ValidationMessage For="()=>_producto.Talla" />
+        </div>
+
+        <div class="row mb-3">
+            <label for="txtColor" class="col-2 col-form-label">Color</label>
+            <div>
+                <InputText id="txtColor" class="form-control" @bind-Value="_producto.Color" />
+                <ValidationMessage For="()=>_producto.Color" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="txtTelefonoVentaCliente" class="col-2 col-form-label">Proveedor</label>
+            <div>
+                <InputSelect id="txtTelefonoVentaCliente" class="form-control" @bind-Value="_producto.ProveedorId">
+                    <option value="0" disabled="disabled">Seleccione un producto...</option>
+                    @foreach (var proveedor in _proveedores!)
+                    {
+                        <option value="@proveedor.Id">@proveedor.Nombre</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="()=>_producto.ProveedorId" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button class="btn btn-danger ms-3" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private string _mensaje = "";
+    private Producto? _producto = new();
+    private List<Proveedor>? _proveedores = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _proveedores = await _repositorioProveedores.GetAll();
+        if (Id > 0)
+        {
+            _producto = await _repositorioProductos.Get(Id);
+            _mensaje = "Modificar";
+        }
+        else
+        {
+            _mensaje = "Nuevo";
+        }
+    }
+
+    private async void Guardar()
+    {
+        if (Id > 0)
+        {
+            await _repositorioProductos.Update(Id, _producto!);
+        }
+        else
+        {
+            await _repositorioProductos.Add(_producto!);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("/productos");
+    }
+}

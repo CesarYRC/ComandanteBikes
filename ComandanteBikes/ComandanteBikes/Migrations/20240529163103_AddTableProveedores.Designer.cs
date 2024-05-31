@@ -3,6 +3,7 @@ using ComandanteBikes.Modelo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComandanteBikes.Migrations
 {
     [DbContext(typeof(CatalogoDBContext))]
-    partial class CatalogoDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240529163103_AddTableProveedores")]
+    partial class AddTableProveedores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,8 +83,8 @@ namespace ComandanteBikes.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<long>("Telefono")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Telefono")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -109,8 +112,8 @@ namespace ComandanteBikes.Migrations
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
-                    b.Property<long>("TelefonoCliente")
-                        .HasColumnType("bigint");
+                    b.Property<int>("TelefonoCliente")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

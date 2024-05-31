@@ -1,0 +1,91 @@
+﻿@page "/ventas/nueva"
+@page "/ventas/editar/{Id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioVentas _repositorioVentas;
+@inject IRepositorioProductos _repositorioProductos;
+
+<h1>@_mensaje Venta</h1>
+<EditForm Model="_venta" FormName="frmVenta" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-3">
+        <label for="txtProducto" class="col-2 col-form-label">Producto</label>
+        <div>
+            <InputSelect id="txtProducto" class="form-control" @bind-Value="_venta.ProductoId">
+                <option value="0" disabled="disabled">Seleccione un producto...</option>
+                @foreach (var producto in _productos!)
+                {
+                    <option value="@producto.Id">@producto.Modelo</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="()=>_venta.TelefonoCliente" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtNombreVentaCliente" class="col-2 col-form-label">Nombre del Cliente</label>
+        <div>
+            <InputText id="txtNombreVentaCliente" class="form-control" @bind-Value="_venta.NombreCliente" />
+            <ValidationMessage For="()=>_venta.NombreCliente" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtCorreoVentaCliente" class="col-2 col-form-label">Correo del Cliente</label>
+        <div>
+            <InputText id="txtCorreoVentaCliente" class="form-control" @bind-Value="_venta.CorreoCliente" />
+            <ValidationMessage For="()=>_venta.CorreoCliente" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="txtTelefonoVentaCliente" class="col-2 col-form-label">Telefono del Cliente</label>
+        <div>
+            <InputNumber id="txtTelefonoVentaCliente" class="form-control" @bind-Value="_venta.TelefonoCliente" />
+            <ValidationMessage For="()=>_venta.TelefonoCliente" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button class="btn btn-danger ms-3" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private string _mensaje = "";
+    private Venta? _venta = new();
+    private List<Producto>? _productos = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _productos = await _repositorioProductos.GetAll();
+        if (Id > 0)
+        {
+            _venta = await _repositorioVentas.Get(Id);
+            _mensaje = "Modificar";
+        }
+        else
+        {
+            _mensaje = "Nuevo";
+        }
+    }
+
+    private async void Guardar()
+    {
+        if (Id > 0)
+        {
+            await _repositorioVentas.Update(Id, _venta!);
+        }
+        else
+        {
+            await _repositorioVentas.Add(_venta!);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("/ventas");
+    }
+}

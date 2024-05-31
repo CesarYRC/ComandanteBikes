@@ -1,19 +1,19 @@
-﻿@page "/registroInventarioTienda"
+﻿@page "/proveedores"
 @rendermode InteractiveServer
 @inject NavigationManager _navigator;
-@inject IRepositorioInventarioTienda _repositorio;
+@inject IRepositorioProveedores _repositorio;
 
 
-<h3>Inverntario Tienda</h3>
+<h3>Proveedores</h3>
 
-<a class="btn btn-success" href="inventarioTienda/nueva">Agregar un nuevo producto al inventario</a>
-@if (_inventarioTienda == null)
+<a class="btn btn-success" href="proveedores/nuevo">Agregar Proveedor</a>
+@if (_proveedores == null)
 {
     <div class="spinner-border" role="status">
         <span class="visually-hidden">Cargando...</span>
     </div>
 }
-else if (_inventarioTienda.Count == 0)
+else if (_proveedores.Count == 0)
 {
     <h3>No existe producto registrado</h3>
 }
@@ -23,30 +23,34 @@ else
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Maximo de Lugares</th>
-                <th>Aula</th>
-                <th>Descripción</th>
-                <th>Acciones</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Opciones</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (InventarioTienda inventarioTienda in _inventarioTienda)
+            @foreach (Proveedor proveedores in _proveedores)
             {
                 <tr>
-                    <td>@inventarioTienda.ModeloInventario</td>
-                    <td>@inventarioTienda.ColorInventario</td>
-                    <td>@inventarioTienda.PrecioInventario</td>
-                    <td>@inventarioTienda.TallaInventario</td>
-                    <td>@inventarioTienda.CantidadTotal</td>
+                    <td>@proveedores.Nombre</td>
+                    <td>@proveedores.Direccion</td>
+                    <td>@proveedores.Telefono</td>
+ 
                     <td>
-                        <button class="btn btn-sm" title="Modificar" @onclick="()=>Modificar(inventarioTienda.Id)">
+                        <button class="btn btn-sm" title="Modificar" @onclick="()=>Modificar(proveedores.Id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
                             </svg>
                         </button>
-                        <button class="btn btn-sm" title="Eliminar" @onclick="()=>Eliminar(inventarioTienda)">
+                        <button class="btn btn-sm" title="Eliminar" @onclick="()=>Eliminar(proveedores)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                            </svg>
+                        </button>
+                        <button class="btn btn-sm" title="Ver Productos" @onclick="()=>VerProductos(proveedores.Id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">
+                                <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
                             </svg>
                         </button>
                     </td>
@@ -57,22 +61,26 @@ else
 }
 
 @code {
-    private List<InventarioTienda>? _inventarioTienda;
+    private List<Proveedor>? _proveedores;
 
     protected override async Task OnInitializedAsync()
     {
-        _inventarioTienda = await _repositorio.GetAll();
+        _proveedores = await _repositorio.GetAll();
     }
 
-    private async void Eliminar(InventarioTienda inventarioTienda)
+    private async void Eliminar(Proveedor proveedor)
     {
-        await _repositorio.Delete(inventarioTienda.Id);
-        _inventarioTienda!.Remove(inventarioTienda);
+        await _repositorio.Delete(proveedor.Id);
+        _proveedores!.Remove(proveedor);
         StateHasChanged();
     }
 
     private void Modificar(int id)
     {
-        _navigator.NavigateTo($"/inventarioTienda/editar/{id}");
+        _navigator.NavigateTo($"/proveedores/editar/{id}");
+    }
+    private void VerProductos(int proveedorId)
+    {
+        _navigator.NavigateTo($"/productos/{proveedorId}");
     }
 }
